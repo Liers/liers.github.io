@@ -1,17 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Liers.github.io/blog</id>
-    <title>My Site Blog</title>
-    <updated>2023-11-01T00:00:00.000Z</updated>
+    <title>UnshiLiu'Site Blog</title>
+    <updated>2023-11-06T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Liers.github.io/blog"/>
-    <subtitle>My Site Blog</subtitle>
+    <subtitle>UnshiLiu'Site Blog</subtitle>
     <icon>https://Liers.github.io/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[一图胜千言]]></title>
+        <id>https://Liers.github.io/blog/画图工程</id>
+        <link href="https://Liers.github.io/blog/画图工程"/>
+        <updated>2023-11-06T00:00:00.000Z</updated>
+        <author>
+            <name>Unshi Liu</name>
+            <uri>https://github.com/Liers</uri>
+        </author>
+        <category label="skills" term="skills"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[外部模型导入到资产库]]></title>
+        <id>https://Liers.github.io/blog/外部模型导入到资产库</id>
+        <link href="https://Liers.github.io/blog/外部模型导入到资产库"/>
+        <updated>2023-11-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[在blender中二次加工]]></summary>
+        <content type="html"><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="在blender中二次加工">在blender中二次加工<a href="https://liers.github.io/blog/%E5%A4%96%E9%83%A8%E6%A8%A1%E5%9E%8B%E5%AF%BC%E5%85%A5%E5%88%B0%E8%B5%84%E4%BA%A7%E5%BA%93#%E5%9C%A8blender%E4%B8%AD%E4%BA%8C%E6%AC%A1%E5%8A%A0%E5%B7%A5" class="hash-link" aria-label="Direct link to 在blender中二次加工" title="Direct link to 在blender中二次加工">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="模型结构调整">模型结构调整<a href="https://liers.github.io/blog/%E5%A4%96%E9%83%A8%E6%A8%A1%E5%9E%8B%E5%AF%BC%E5%85%A5%E5%88%B0%E8%B5%84%E4%BA%A7%E5%BA%93#%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84%E8%B0%83%E6%95%B4" class="hash-link" aria-label="Direct link to 模型结构调整" title="Direct link to 模型结构调整">​</a></h3>
+<p>一般美工给过来的模型因为之前没有设定统一的规范，可能导致给的原始模型的层次结构比较复杂，会出现多个层级的现象。如下图：</p>
+<p><img loading="lazy" src="http://149.248.20.74:8089/i/2023/11/06/654845f65e80d.png" alt="image-20231106094837079" class="img_ev3q"></p>
+<p>这样其实对于模型的呈现是没有什么影响的，但是由于系统中暂时还没有一个很好的模型选中机制，目前如果想选中空间中的一个设备，这个设备内部同时还有许多子部件，那么每次点击无法确定点中了哪一个层级，需要向上钻取多少层才到达我们想要的父级。为了解决这个问题，需要在处理模型的时候将模型处理为简单的二层结构，只有一个父级和包含了模型所有子部件的子级。如下图：</p>
+<p><img loading="lazy" src="http://149.248.20.74:8089/i/2023/11/06/6548476d5216f.png" alt="image-20231106095452440" class="img_ev3q"></p>
+<p>这里有几点需要注意：</p>
+<ol>
+<li>我一般选择新建一个空的empty plain axes作为父级，这其实就是一个没有任何实际意义的空间占位，不好渲染到屏幕中。可以理解为three.js中一个初始状态的object3D对象。</li>
+</ol>
+<p><img loading="lazy" src="http://149.248.20.74:8089/i/2023/11/06/6548483cb24ea.png" alt="image-20231106095818331" class="img_ev3q"></p>
+<ol start="2">
+<li>
+<p>有时候可能会存在这样的需求：需求对模型某个部分进行交互控制的时候，比如之前做过的摄像头转向控制，这个时候在调整摄像头模型的时候，就要多增加模型层次。因为摄像头转动的时候肯定也会带动其他一些部件跟随转动，所以需要这些跟随部件是旋转轴部件的子级。</p>
+</li>
+<li>
+<p>还有一个需要注意的点就是如何选择父级parent节点的位置，现在默认是将父级放在模型的底面中心位置。这样做的理由是这样放置后在场景中加载模型后无需再计算模型的高度位置信息，只需直接采用二维布局中的二维坐标作为x、z坐标即可，同时Y轴坐标已经支持在资产库管理页面中进行自定义配置了。</p>
+</li>
+</ol>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="导出为gltf格式">导出为GLTF格式<a href="https://liers.github.io/blog/%E5%A4%96%E9%83%A8%E6%A8%A1%E5%9E%8B%E5%AF%BC%E5%85%A5%E5%88%B0%E8%B5%84%E4%BA%A7%E5%BA%93#%E5%AF%BC%E5%87%BA%E4%B8%BAgltf%E6%A0%BC%E5%BC%8F" class="hash-link" aria-label="Direct link to 导出为GLTF格式" title="Direct link to 导出为GLTF格式">​</a></h3>
+<p>在完成模型调整后导出时注意一下几点：</p>
+<ol>
+<li>
+<p>导出时选择导出为GLTF格式，记得勾选以下几个选项：</p>
+<p><img loading="lazy" src="http://149.248.20.74:8089/i/2023/11/06/65484f22d9db5.png" alt="image-20231106102743669" class="img_ev3q"></p>
+</li>
+<li>
+<p>第一次导出的时候可以先不选择压缩（compression）选项，因为我们还需要在本地使用windows自带的3D查看器工具查看导出的模型时候正常，然后生成一张模型快照一起作为模型预览图一起上传。</p>
+<p><img loading="lazy" src="http://149.248.20.74:8089/i/2023/11/06/654850c0ef2fe.png" alt="image-20231106103439361" class="img_ev3q"></p>
+</li>
+</ol>
+<p>​	确认无误并且导出预览图后再在blender中重新导出压缩后（勾选compression选项）的GLTF模型。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="导入资产库">导入资产库<a href="https://liers.github.io/blog/%E5%A4%96%E9%83%A8%E6%A8%A1%E5%9E%8B%E5%AF%BC%E5%85%A5%E5%88%B0%E8%B5%84%E4%BA%A7%E5%BA%93#%E5%AF%BC%E5%85%A5%E8%B5%84%E4%BA%A7%E5%BA%93" class="hash-link" aria-label="Direct link to 导入资产库" title="Direct link to 导入资产库">​</a></h2>
+<p>打开系统的资产管理页面（前缀/Console/TwinConfiguration），点击所要新增的资产所属大类后点击新建一个。写入对应的信息后，上传压缩后的模型和之前导出的模型预览图后点击提交即完成了导入过程。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="同步远程资产库到项目本地">同步远程资产库到项目本地<a href="https://liers.github.io/blog/%E5%A4%96%E9%83%A8%E6%A8%A1%E5%9E%8B%E5%AF%BC%E5%85%A5%E5%88%B0%E8%B5%84%E4%BA%A7%E5%BA%93#%E5%90%8C%E6%AD%A5%E8%BF%9C%E7%A8%8B%E8%B5%84%E4%BA%A7%E5%BA%93%E5%88%B0%E9%A1%B9%E7%9B%AE%E6%9C%AC%E5%9C%B0" class="hash-link" aria-label="Direct link to 同步远程资产库到项目本地" title="Direct link to 同步远程资产库到项目本地">​</a></h2>
+<p>启用本地后台或者使用线上环境，请求此请求（前缀/digitalTwinTemp/downloadAll）即可将远程文件服务器内上传的模型和模型预览图打包下载。在下载结束后解压缩文件，使用其中的模型文件覆盖项目中的public\modelLibrary下的文件，图片文件覆盖public\modelViewImages下的文件，即可更新本地资产。</p>]]></content>
+        <author>
+            <name>Unshi Liu</name>
+            <uri>https://github.com/Liers</uri>
+        </author>
+        <category label="work" term="work"/>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Docusaurus简介]]></title>
         <id>https://Liers.github.io/blog/docusaurus</id>
         <link href="https://Liers.github.io/blog/docusaurus"/>
-        <updated>2023-11-01T00:00:00.000Z</updated>
+        <updated>2023-11-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[What]]></summary>
         <content type="html"><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="what">What<a href="https://liers.github.io/blog/docusaurus#what" class="hash-link" aria-label="Direct link to What" title="Direct link to What">​</a></h2>
 <p>是一款FaceBook开源的静态网页生成器，基于react开发，便于扩展与自定义。提供了开箱即用的文档功能，多用于搭建个人博客网站。</p>
