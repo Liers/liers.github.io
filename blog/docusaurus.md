@@ -4,15 +4,9 @@ slug: docusaurus
 
 title: Docusaurus简介
 
-authors:
+authors: unshi
 
- name: Unshi Liu
-
- title: Docusaurus Core Team
-
- url: https://github.com/Liers
-
- image_url: https://github.com/Liers.png
+date: 2023-11-02
 
 tags: [docusaurus]
 
